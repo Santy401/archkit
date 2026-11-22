@@ -1,0 +1,23 @@
+schemaVersion: 1
+project:
+  name: ExpenseCore
+  description: Base conceptual de un sistema de finanzas personales.
+  purpose: Organizar ingresos, gastos, categorías, presupuestos y balances con reglas de validación explícitas.
+  size: medium
+  type: application
+  author: Santy401
+workspace:
+  organization: single
+  deployment: modular-monolith
+architecture:
+  style: hexagonal
+documentation:
+  profile: standard
+  adr: true
+  rfc: true
+  validator: true
+agents:
+  enabled: true
+tooling:
+  git: false
+  quality: true

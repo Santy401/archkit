@@ -1,0 +1,117 @@
+[
+  {
+    "path": "00-project/vision.md",
+    "title": "Visión",
+    "body": "Definir el resultado esperado, los usuarios y cómo se evaluará el éxito."
+  },
+  {
+    "path": "00-project/scope.md",
+    "title": "Alcance",
+    "body": "Separar lo incluido, lo excluido y las hipótesis pendientes de validar."
+  },
+  {
+    "path": "00-project/glossary.md",
+    "title": "Glosario",
+    "body": "Registrar los términos del dominio y una definición compartida por término."
+  },
+  {
+    "path": "01-requirements/functional.md",
+    "title": "Requisitos funcionales",
+    "body": "Documentar capacidades verificables con encabezados `## FR-001 Nombre`."
+  },
+  {
+    "path": "01-requirements/non-functional.md",
+    "title": "Requisitos no funcionales",
+    "body": "Usar `## NFR-001 Nombre` y especificar métrica, umbral y método de medición."
+  },
+  {
+    "path": "01-requirements/business-rules.md",
+    "title": "Reglas de negocio",
+    "body": "Usar `## BR-001 Nombre`; describir condición, resultado y excepciones sin asumir decisiones aprobadas."
+  },
+  {
+    "path": "01-requirements/use-cases.md",
+    "title": "Casos de uso",
+    "body": "Usar `## UC-001 Nombre`; indicar actor, precondiciones, flujo principal, alternativas y resultado."
+  },
+  {
+    "path": "02-architecture/overview.md",
+    "title": "Vista general",
+    "body": "Documentar contexto, componentes, integración y decisiones pendientes."
+  },
+  {
+    "path": "02-architecture/principles.md",
+    "title": "Principios",
+    "body": "Dependencias explícitas, separación de responsabilidades y evidencia verificable. Los cambios requieren revisión."
+  },
+  {
+    "path": "02-architecture/boundaries.md",
+    "title": "Límites",
+    "body": "Definir propiedad de datos y contratos públicos. No acceder directamente a detalles privados de otro módulo."
+  },
+  {
+    "path": "03-design/domain-model.md",
+    "title": "Modelo de dominio",
+    "body": "Identificar entidades, valores, invariantes y relaciones con lenguaje del dominio."
+  },
+  {
+    "path": "03-design/contracts.md",
+    "title": "Contratos",
+    "body": "Definir entradas, salidas, errores y compatibilidad de interfaces públicas."
+  },
+  {
+    "path": "03-design/workflows.md",
+    "title": "Flujos",
+    "body": "Describir secuencias de interacción y vincular los requisitos correspondientes."
+  },
+  {
+    "path": "04-quality/test-strategy.md",
+    "title": "Estrategia de pruebas",
+    "body": "Separar pruebas unitarias de dominio, integración de adaptadores y aceptación. Elegir herramientas antes de programar."
+  },
+  {
+    "path": "04-quality/acceptance-criteria.md",
+    "title": "Criterios de aceptación",
+    "body": "Usar encabezados `## AC-001 Nombre` con Dado/Cuando/Entonces y referencia `[[FR-001]]` a un requisito existente."
+  },
+  {
+    "path": "04-quality/quality-gates.md",
+    "title": "Controles de calidad",
+    "body": "Definir comandos reproducibles para análisis estático, tipos, pruebas y compilación. Registrar evidencia de ejecución."
+  },
+  {
+    "path": "05-operations/environments.md",
+    "title": "Entornos",
+    "body": "Definir entornos y variables requeridas sin guardar valores secretos."
+  },
+  {
+    "path": "05-operations/deployment.md",
+    "title": "Despliegue",
+    "body": "Documentar preparación, comprobación de salud, reversión y responsables antes del primer despliegue."
+  },
+  {
+    "path": "06-decisions/decision-log.md",
+    "title": "Registro de decisiones",
+    "body": "Relacionar ADR propuestos y aceptados; el estado de cada ADR es la fuente de verdad."
+  },
+  {
+    "path": "06-decisions/open-questions.md",
+    "title": "Preguntas abiertas",
+    "body": "Registrar pregunta, responsable y evidencia necesaria para resolverla."
+  },
+  {
+    "path": "07-evolution/roadmap.md",
+    "title": "Hoja de ruta",
+    "body": "Ordenar resultados propuestos. No asumir fechas ni compromisos no aprobados."
+  },
+  {
+    "path": "07-evolution/changelog.md",
+    "title": "Historial de cambios",
+    "body": "Registrar cambios publicados y su efecto observable. No confundir trabajo pendiente con versiones entregadas."
+  },
+  {
+    "path": "07-evolution/technical-debt.md",
+    "title": "Deuda técnica",
+    "body": "Registrar limitación, impacto, alternativa, responsable y criterio de resolución."
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "hexagonal": {
+    "summary": "El dominio no depende de infraestructura. Los casos de uso reciben puertos de salida y los adaptadores de entrada llaman puertos de aplicación. La composición conecta adaptadores concretos desde fuera.",
+    "layers": {
+      "domain": "Entidades, valores e invariantes sin dependencias de adaptadores ni puertos de aplicación.",
+      "application/ports/inbound": "Contratos de casos de uso ofrecidos a los adaptadores de entrada.",
+      "application/ports/outbound": "Contratos de persistencia e integración requeridos por casos de uso; no implementaciones.",
+      "application/use-cases": "Orquestación; depende del dominio y de puertos, nunca de infraestructura.",
+      "adapters/inbound": "Traducción de entradas externas a puertos de aplicación.",
+      "adapters/outbound": "Implementaciones de puertos de salida; traduce modelos externos.",
+      "composition": "Conexión de adaptadores concretos y casos de uso; único lugar que conoce ambas partes."
+    },
+    "sources": {
+      "domain/entity.ts": "export interface Entity { readonly id: string }\n",
+      "application/ports/outbound/entity-repository.ts": "import type { Entity } from '../../../domain/entity.js';\nexport interface EntityRepository { findById(id: string): Promise<Entity | undefined> }\n",
+      "application/ports/inbound/find-entity.ts": "import type { Entity } from '../../../domain/entity.js';\nexport interface FindEntity { execute(id: string): Promise<Entity | undefined> }\n",
+      "application/use-cases/find-entity.ts": "import type { EntityRepository } from '../ports/outbound/entity-repository.js';\nimport type { FindEntity } from '../ports/inbound/find-entity.js';\nexport function createFindEntity(repository: EntityRepository): FindEntity {\n  return { execute: (id) => repository.findById(id) };\n}\n"
+    }
+  },
+  "clean": {
+    "summary": "La regla de dependencia apunta hacia entidades y casos de uso. Los casos de uso definen límites de entrada/salida y gateways. Los presentadores implementan el límite de salida; frameworks permanecen fuera.",
+    "layers": {
+      "entities": "Reglas de dominio independientes de casos de uso y frameworks.",
+      "use-cases": "Interactors y límites de entrada/salida; define gateways. No importa controladores ni frameworks.",
+      "interface-adapters/controllers": "Convierte solicitudes en entradas del interactor.",
+      "interface-adapters/presenters": "Implementa límites de salida y transforma resultados en modelos de presentación.",
+      "interface-adapters/gateways": "Implementa gateways definidos por los casos de uso.",
+      "frameworks": "Integraciones concretas y composición; depende de capas internas."
+    },
+    "sources": {
+      "entities/entity.ts": "export interface Entity { readonly id: string }\n",
+      "use-cases/find-entity.ts": "import type { Entity } from '../entities/entity.js';\nexport interface EntityGateway { find(id: string): Promise<Entity | undefined> }\nexport interface EntityOutput { present(entity: Entity | undefined): void }\nexport class FindEntity {\n  constructor(private readonly gateway: EntityGateway, private readonly output: EntityOutput) {}\n  async execute(id: string): Promise<void> { this.output.present(await this.gateway.find(id)); }\n}\n",
+      "interface-adapters/presenters/entity-presenter.ts": "import type { Entity } from '../../entities/entity.js';\nimport type { EntityOutput } from '../../use-cases/find-entity.js';\nexport class EntityPresenter implements EntityOutput {\n  model: { id: string } | undefined;\n  present(entity: Entity | undefined): void { this.model = entity ? { id: entity.id } : undefined; }\n}\n"
+    }
+  },
+  "layered": {
+    "summary": "La presentación llama servicios de negocio y estos consumen la capa de acceso a datos. Las capas inferiores no importan capas superiores. El modelo compartido describe los datos; esta estructura permite dependencias descendentes sin invertirlas mediante puertos.",
+    "layers": {
+      "presentation": "Entrega de respuestas y validación de entradas; llama servicios.",
+      "business": "Servicios y reglas de negocio; depende de data-access y model.",
+      "data-access": "Acceso a almacenamiento; depende únicamente de model e integraciones externas.",
+      "model": "Tipos de datos compartidos por las capas."
+    },
+    "sources": {
+      "model/entity.ts": "export interface Entity { readonly id: string }\n",
+      "data-access/entity-store.ts": "import type { Entity } from '../model/entity.js';\nexport class EntityStore {\n  private readonly entries = new Map<string, Entity>();\n  find(id: string): Entity | undefined { return this.entries.get(id); }\n  save(entity: Entity): void { this.entries.set(entity.id, entity); }\n}\n",
+      "business/entity-service.ts": "import { EntityStore } from '../data-access/entity-store.js';\nexport class EntityService {\n  constructor(private readonly store: EntityStore) {}\n  find(id: string) { return this.store.find(id); }\n}\n"
+    }
+  },
+  "minimal": {
+    "summary": "Sin capas impuestas. Mantener interfaces pequeñas y pruebas próximas al comportamiento. Registrar una decisión cuando el crecimiento requiera límites adicionales.",
+    "layers": {
+      "": "Código del proyecto sin división arquitectónica obligatoria."
+    },
+    "sources": {
+      "index.ts": "// Add the first project capability here after agreeing on requirements.\nexport {};\n"
+    }
+  }
+}
