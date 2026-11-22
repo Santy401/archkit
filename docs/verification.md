@@ -44,9 +44,13 @@ El tarball local está ignorado por Git y no se ha publicado en npm. Contiene ú
 7. Verificación: comandos anteriores ejecutados; los defectos encontrados se corrigieron antes de empaquetar.
 8. Entrega: documentación, notas, licencia MIT autorizada, CODEOWNERS @Santy401, paquete local y etiqueta de hito local v1.
 
-## Implementado pero no verificado por esta ejecución local
+## Evidencia multiplataforma en CI
 
-La matriz de GitHub Actions define Linux/macOS/Windows con Node 22.14 y 24. Esta evidencia local sólo acredita Linux con Node 24. Consultar las ejecuciones remotas del [workflow CI](https://github.com/Santy401/archkit/actions/workflows/ci.yml) para los demás sistemas.
+La [ejecución 45046689537](https://github.com/Santy401/archkit/actions/runs/45046689537), sobre el commit d145b90, terminó con éxito en las seis combinaciones Linux/macOS/Windows y Node 22.14/24. Cada trabajo ejecutó lint, tipos, 108 pruebas, build, formato, instalación offline del tarball, regeneración exacta de ExpenseCore y revisión de contenido npm. El commit posterior sólo registra esta evidencia y las notas de la etiqueta, sin cambios funcionales.
+
+La primera ejecución detectó un problema del script de comprobación en Windows al usar temporales y almacenes pnpm de distintas unidades. Se corrigió reutilizando el almacén original y ejecutando los gestores mediante sus entradas JS, sin shell. La matriz completa se volvió a ejecutar con éxito.
+
+## Implementado pero no verificado contra servicios de publicación
 
 Los workflows de publicación OIDC y borrador de release están preparados; no se han ejecutado aquí contra npm ni se ha creado una release pública. Requieren configuración del propietario, autorización, identidad npm y environments protegidos. La publicación npm está desactivada por defecto.
 
