@@ -23,7 +23,7 @@ Verificación local realizada el 22 de noviembre de 2026 en Linux, Node 24.22.2,
 | ExpenseCore             | Generado con el motor de producción, validación sin incidencias y snapshot idéntico al regenerar                |
 | Distribución            | npm pack --dry-run correcto; allowlist de 39 archivos; shebang y permiso ejecutable comprobados                 |
 
-## Artefacto preparado
+## Artefacto preparado del hito v1
 
 `create-archkit-0.1.0.tgz`, aproximadamente 29.3 kB comprimidos; 39 archivos. SHA-256:
 
@@ -31,7 +31,7 @@ Verificación local realizada el 22 de noviembre de 2026 en Linux, Node 24.22.2,
 0dc4a744cc6f825250cf4e6faa3d177047193450c0d6f12282ec799c9482e174
 ```
 
-El tarball local está ignorado por Git y no se ha publicado en npm. Contiene únicamente distribución JS/tipos, blueprints, README, CHANGELOG, licencia y manifiesto. No contiene el ejemplo, herramientas de desarrollo, workflows ni documentos privados.
+En la verificación inicial del hito v1, el tarball estaba ignorado por Git y aún no se había publicado en npm. Contiene únicamente distribución JS/tipos, blueprints, README, CHANGELOG, licencia y manifiesto. No contiene el ejemplo, herramientas de desarrollo, workflows ni documentos privados.
 
 ## Fases y alcance
 
@@ -52,11 +52,11 @@ La primera ejecución detectó un problema del script de comprobación en Window
 
 ## Implementado pero no verificado contra servicios de publicación
 
-Los workflows de publicación OIDC y borrador de release están preparados; no se han ejecutado aquí contra npm ni se ha creado una release pública. Requieren configuración del propietario, autorización, identidad npm y environments protegidos. La publicación npm está desactivada por defecto.
+El workflow OIDC de npm está preparado y pendiente de configurar la confianza del propietario. La publicación inicial npm y la GitHub Release se completaron posteriormente con autorización explícita, mediante autenticación web y gh; GitHub Packages se publicó mediante Actions. Ver la evidencia de distribución al final.
 
 ## Pendiente y fuera del alcance
 
-Pendiente de autorización: publicar npm, subir etiquetas remotas y publicar una GitHub Release. El nombre provisional debe volver a comprobarse antes de la primera publicación.
+La publicación de 0.1.0 y su release están completadas. Queda pendiente configurar OIDC para automatizar futuras publicaciones npm; cada nueva entrega requiere la revisión correspondiente.
 
 Fuera de v0.1.0: frameworks completos, instalaciones del proyecto generado, monorepos, servicios independientes, migraciones, marketplace y ejecución de plugins descargados. Hacia v0.2.0 se propone priorizar blueprints de frameworks, módulos configurables y análisis Markdown más amplio.
 
@@ -69,3 +69,18 @@ El propietario autorizó publicar el 22 de noviembre de 2026. Se actualizaron la
 El tarball de release incorpora las notas de distribución actualizadas; sustituye al artefacto de preparación anterior. SHA-256: `0228f6b037e5a014862883cab552ca6cbc2bd4ff3172fd2d8c647cbdbc0f82f9`.
 
 La primera solicitud de publicación npm fue rechazada porque la cuenta todavía no tenía 2FA; no se publicó una versión con esa solicitud. El estado definitivo de publicación se registra en la GitHub Release v0.1.0.
+
+## Distribución pública verificada
+
+Publicación completada el 22 de noviembre de 2026:
+
+- create-archkit@0.1.0 está disponible en npm como latest. npx y pnpm dlx ejecutaron --version y devolvieron 0.1.0 con una caché temporal limpia.
+- npx generó un proyecto desde el paquete publicado y pnpm dlx lo validó: valid=true e issues=[].
+- La integridad SHA-512 del registro coincidió con el tarball adjunto a la release.
+- La etiqueta anotada v0.1.0 se subió y la release pública se creó con gh, con notas, tarball y checksum.
+- GitHub Packages publicó @santy401/create-archkit@0.1.0 mediante la [ejecución 45047887334](https://github.com/Santy401/archkit/actions/runs/45047887334). El propietario confirmó el cambio de visibilidad a pública desde la interfaz de GitHub.
+- La [CI de la entrega c8d6450](https://github.com/Santy401/archkit/actions/runs/45047885288) finalizó correctamente en toda la matriz.
+
+El primer intento desde la caché que había consultado durante el procesamiento de npm devolvió ETARGET. Se refrescaron los metadatos y se repitió la prueba desde una caché aislada nueva con éxito; no se repitió la publicación. La primera publicación efectiva se autorizó con 2FA web y terminó correctamente una sola vez.
+
+No se ha activado la automatización OIDC de npm sin la configuración de confianza necesaria. Esto no afecta a la disponibilidad ni a la instalación de la versión publicada.
