@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -9,15 +10,34 @@ const repository = fileURLToPath(new URL('../', import.meta.url));
 const temp = await mkdtemp(
   path.join(await realpath(os.tmpdir()), 'archkit-package-'),
 );
-const run = (command, args, cwd = repository) =>
-  execFileSync(command, args, {
+// Invoke JS package managers through Node instead of shell-concatenating .cmd arguments.
+const run = (command, args, cwd = repository) => {
+  let executable = command;
+  let parameters = args;
+  if (command === 'pnpm' && process.env.npm_execpath) {
+    const entry = process.env.npm_execpath;
+    executable = /\.[cm]?js$/.test(entry) ? process.execPath : entry;
+    parameters = executable === process.execPath ? [entry, ...args] : args;
+  } else if (process.platform === 'win32' && ['npm', 'npx'].includes(command)) {
+    const entry = path.join(
+      path.dirname(process.execPath),
+      'node_modules/npm/bin',
+      `${command === 'npm' ? 'npm' : 'npx'}-cli.js`,
+    );
+    assert.ok(
+      existsSync(entry),
+      `Cannot locate ${command} next to Node: ${entry}`,
+    );
+    executable = process.execPath;
+    parameters = [entry, ...args];
+  }
+  return execFileSync(executable, parameters, {
     cwd,
     encoding: 'utf8',
     timeout: 120000,
-    // Windows package-manager launchers are .cmd files. All arguments are local, controlled paths.
-    shell: process.platform === 'win32',
     env: { ...process.env, CI: 'true' },
   });
+};
 try {
   const output = JSON.parse(
     run('npm', [
@@ -56,9 +76,19 @@ try {
       dependencies: { 'create-archkit': `file:${tarball}` },
     }),
   );
+  // On Windows the workspace and os.tmpdir may live on different volumes.
+  // Explicitly reuse the original store; pnpm may copy instead of hard-linking across volumes.
+  const store = path.dirname(run('pnpm', ['store', 'path']).trim());
   run(
     'pnpm',
-    ['install', '--offline', '--ignore-scripts', '--no-frozen-lockfile'],
+    [
+      'install',
+      '--offline',
+      '--ignore-scripts',
+      '--no-frozen-lockfile',
+      '--store-dir',
+      store,
+    ],
     temp,
   );
   const installed = path.join(
