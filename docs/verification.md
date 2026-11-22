@@ -61,3 +61,11 @@ Pendiente de autorización: publicar npm, subir etiquetas remotas y publicar una
 Fuera de v0.1.0: frameworks completos, instalaciones del proyecto generado, monorepos, servicios independientes, migraciones, marketplace y ejecución de plugins descargados. Hacia v0.2.0 se propone priorizar blueprints de frameworks, módulos configurables y análisis Markdown más amplio.
 
 El validador no evalúa corrección de negocio, enlaces externos ni arquitectura del código. DOC-011 sólo detecta igualdad exacta de cuerpos completos. La limpieza es recuperable ante errores normales, sin garantía ante SIGKILL, fallo de disco o modificación concurrente hostil del destino.
+
+## Preparación de la publicación autorizada
+
+El propietario autorizó publicar el 22 de noviembre de 2026. Se actualizaron las instrucciones de instalación para npm y pnpm y se añadió la distribución aislada de GitHub Packages. Lint, build y la instalación offline del nuevo tarball pasaron. El código funcional permanece idéntico a la matriz multiplataforma ya verificada.
+
+El tarball de release incorpora las notas de distribución actualizadas; sustituye al artefacto de preparación anterior. SHA-256: `0228f6b037e5a014862883cab552ca6cbc2bd4ff3172fd2d8c647cbdbc0f82f9`.
+
+La primera solicitud de publicación npm fue rechazada porque la cuenta todavía no tenía 2FA; no se publicó una versión con esa solicitud. El estado definitivo de publicación se registra en la GitHub Release v0.1.0.

@@ -2,9 +2,9 @@
 
 CLI para crear bases de proyectos con arquitectura explícita, documentación organizada y convenciones de ingeniería desde el primer día.
 
-**Versión: 0.1.0 · Paquete provisional: `create-archkit` · Ejecutable: `archkit` · Licencia: MIT.**
+**Versión: 0.1.0 · Paquete: `create-archkit` · Ejecutable: `archkit` · Licencia: MIT.**
 
-El paquete está preparado para npm; esta documentación no afirma que esté publicado. GitHub es el repositorio principal: [Santy401/archkit](https://github.com/Santy401/archkit). El nombre devolvió 404 en la consulta al registro del 22 de noviembre de 2026; debe comprobarse de nuevo antes de publicar.
+GitHub es el repositorio principal: [Santy401/archkit](https://github.com/Santy401/archkit). La distribución principal usa el [registro npm](https://www.npmjs.com/package/create-archkit), compatible con npm y pnpm. El registro adicional GitHub Packages utiliza `@santy401/create-archkit`; requiere configuración y autenticación propias.
 
 ## Qué resuelve
 
@@ -43,15 +43,16 @@ npm install --global ./create-archkit-0.1.0.tgz
 archkit --version
 ```
 
-Después de una publicación autorizada en npm, se podrá ejecutar sin instalación global:
+Ejecución desde el registro npm sin instalación global:
 
 ```bash
 npx create-archkit@0.1.0 init
+pnpm dlx create-archkit@0.1.0 init
 # Forma explícita cuando se quiere indicar el ejecutable:
 npm exec --package=create-archkit@0.1.0 -- archkit init
 ```
 
-Estos comandos de registro requieren que la versión esté publicada; actualmente puede usarse el tarball local.
+También se puede instalar globalmente con `npm install --global create-archkit` o `pnpm add --global create-archkit`. Las [releases de GitHub](https://github.com/Santy401/archkit/releases) ofrecen el tarball para instalación local.
 
 ## Primer uso
 

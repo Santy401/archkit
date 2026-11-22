@@ -1,6 +1,6 @@
 # Historial de cambios
 
-## 0.1.0 — preparada para primera publicación
+## 0.1.0 — 2026-11-22
 
 - CLI interactiva y reproducible mediante opciones o YAML/JSON.
 - Configuración schemaVersion 1 con validación estricta y compatibilidad explícita.
@@ -14,4 +14,4 @@
 - ExpenseCore reproducible y suite de pruebas sin conexiones externas.
 - Paquete `create-archkit`, ejecutable `archkit`, CI multiplataforma y flujos protegidos de publicación OIDC y release borrador.
 
-La versión aún no se ha publicado en npm. La etiqueta local anotada `v1` representa este primer hito de implementación, manteniendo la versión de paquete 0.1.0.
+Primera distribución autorizada como `create-archkit@0.1.0`, instalable con npm y pnpm. La etiqueta semántica de release es `v0.1.0`; `v1` conserva el hito inicial de implementación. GitHub Packages utiliza una distribución con ámbito independiente.

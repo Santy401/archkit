@@ -63,3 +63,24 @@ archkit --version
 ```
 
 Para fijar una versión usar `@0.1.0`; para actualizar globalmente instalar la versión elegida. Actualizar ArchKit no modifica proyectos ya generados ni migra sus documentos. La generación local continúa funcionando sin red; descargar o actualizar el paquete sí requiere registro o un tarball disponible.
+
+## Publicación autorizada de 0.1.0
+
+El propietario autorizó el 22 de noviembre de 2026 la publicación en npm y GitHub Packages y la creación de una etiqueta y GitHub Release mediante gh. Esto reemplaza la restricción previa para esta entrega.
+
+npm y pnpm son gestores que utilizan el mismo registro público npm por defecto: no se publica una segunda copia para pnpm. El paquete principal conserva el nombre create-archkit.
+
+GitHub Packages es otro registro y exige nombres con ámbito. El workflow github-packages.yml prepara una copia aislada llamada @santy401/create-archkit con scripts/prepare-github-package.mjs; no modifica el manifiesto principal ni su lockfile. Publica con GITHUB_TOKEN y permiso packages:write, sin usar credenciales npm personales. Nunca se guardan tokens en el repositorio.
+
+El paquete de GitHub puede nacer privado, incluso si el repositorio es público. Revisar sus ajustes y cambiar la visibilidad a pública desde GitHub cuando corresponda. Incluso los paquetes npm públicos de GitHub Packages requieren autenticación para instalarse. Consulte la [documentación oficial](https://docs.github.com/es/packages/working-with-a-github-packages-registry/working-with-the-npm-registry).
+
+Instalación principal:
+
+```bash
+npx create-archkit@0.1.0 init my-project
+pnpm dlx create-archkit@0.1.0 init my-project
+```
+
+Para el registro adicional, configurar @santy401:registry=https://npm.pkg.github.com y autenticarse con un token de lectura de paquetes fuera del repositorio. Después instalar @santy401/create-archkit con npm o pnpm. Para obtener la CLI pública sin credenciales de GitHub, preferir la distribución principal de npm.
+
+La primera publicación npm se realiza con sesión del propietario y confirmación web/2FA si el registro lo requiere. Las siguientes podrán utilizar el workflow OIDC existente una vez que el propietario configure el trusted publisher; no se activa esa automatización sin completar la relación de confianza.
